@@ -45,6 +45,21 @@ After configuring the environment variables to your liking start the server with
 
 `java -jar /path/to/fileStore-all-0.1.jar`
 
+There is also a Docker container available "tebro/filestore"
+
+Can be used with the defaults:
+
+`docker run -d -p 10000:10000 tebro/filestore`
+
+or if you want to change some configuration (maybe want persistant storage?):
+
+```
+docker run -d -p 1337:1337 \
+        -e STORAGE_PORT=1337 \
+        -v /storage:/storage \
+        -e STORAGE_FILE_PATH=/storage \
+        tebro/filestore
+```
 
 ### Using in your application
 
