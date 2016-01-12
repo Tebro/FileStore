@@ -19,16 +19,16 @@ public class Main {
         Environment env = new Environment();
 
         HttpServer server = null;
+        String port = env.getValue("STORAGE_PORT");
+        if(port == null) port = "10000";
         try {
-            server = HttpServer.create(new InetSocketAddress(Integer.parseInt(env.getValue("STORAGE_PORT"))), 0);
+            server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
-        } catch (NumberFormatException e){
-            System.out.println("Environment variable 'STORAGE_PORT' is not set");
-            System.exit(0);
         }
         server.createContext("/", new Handler(env));
+        System.out.println("Server is running on port: " + port);
         server.start();
     }
 
