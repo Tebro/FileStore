@@ -4,8 +4,6 @@ package com.old_box.StorageEngine;
 import com.old_box.StorageEngine.Backends.FileBackend;
 import com.old_box.fileStore.Environment;
 
-import java.io.IOException;
-
 public class StorageEngine {
 
     StorageBackend backend;
