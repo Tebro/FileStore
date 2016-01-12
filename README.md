@@ -43,7 +43,7 @@ The path on the filesystem where the data will be stored.
 
 After configuring the environment variables to your liking start the server with:
 
-`java -jar /path/to/fileStore-all-0.1.jar`
+`java -jar /path/to/fileStore-all-$VERSION.jar`
 
 There is also a Docker container available "tebro/filestore"
 
