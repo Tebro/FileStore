@@ -25,7 +25,7 @@ Default: 10000
 
 The TCP port that the server will listen on.
 
-`export STORAGE_PORT=10000
+`export STORAGE_PORT=10000`
 
 
 #### STORAGE_FILE_PATH
@@ -36,7 +36,7 @@ Default: /tmp/fileStorage
 
 The path on the filesystem where the data will be stored. 
 
-`export STORAGE_FILE_PATH=/tmp/fileStorage``
+`export STORAGE_FILE_PATH=/tmp/fileStorage`
 
 
 ### Running
