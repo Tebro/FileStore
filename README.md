@@ -10,13 +10,14 @@ The system is configured via environment variables.
 
 #### STORAGE_BACKEND
 
-Defaults to "file" which uses the systems filesystem to store the data.
+Defaults to "memory" which stores the data in RAM.
 
 `export STORAGE_BACKEND=file`
 
 Currently supported backends are:
 
- - file
+ - memory
+ - file -- Stores the data on disk.
 
 
 #### STORAGE_PORT
