@@ -10,7 +10,7 @@ public class StorageEngine {
 
     public StorageEngine(Environment env) throws Exception {
         String backend = env.getValue("STORAGE_BACKEND");
-        if(backend == null) backend = "file";
+        if(backend == null) backend = "memory";
         switch (backend){
             case "file":
                 this.fileBackend(env);
