@@ -57,6 +57,7 @@ or if you want to change some configuration (maybe want persistant storage?):
 ```
 docker run -d -p 1337:1337 \
         -e STORAGE_PORT=1337 \
+        -e STORAGE_BACKEND=file \
         -v /storage:/storage \
         -e STORAGE_FILE_PATH=/storage \
         tebro/filestore
