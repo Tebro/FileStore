@@ -103,8 +103,11 @@ public class Main {
                     return;
                 }
                 // Set the HTTP_CONTENT_TYPE header to the same header that was given when the data was POSTed.
-                Headers headers = t.getResponseHeaders();
-                headers.add("Content-Type", data.getContentType());
+                if(data.getContentType() != null){
+                    Headers headers = t.getResponseHeaders();
+                    headers.add("Content-Type", data.getContentType());
+                }
+
                 t.sendResponseHeaders(200, data.getData().length);
                 // Send response.
                 OutputStream os = t.getResponseBody();
