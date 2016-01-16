@@ -33,7 +33,7 @@ public class StorageEngine {
 
     /***
      * Helper for creating an instance of the FileBackend to use
-     * @param env
+     * @param env Instance of Environment class.
      * @throws Exception
      */
     private void fileBackend(Environment env) throws Exception {
@@ -47,7 +47,7 @@ public class StorageEngine {
     /***
      * Helper for creating an instance of the MemoryBackend.
      *
-     * @param env
+     * @param env Instance of Environment class.
      */
     private void memoryBackend(Environment env){
         this.backend = new MemoryBackend();
@@ -57,9 +57,9 @@ public class StorageEngine {
 
     /***
      * Want to store data through this class? Use this method.
-     * @param key
-     * @param data
-     * @param headers
+     * @param key They key that the data should be associated with
+     * @param data The data to store
+     * @param headers A package of Headers that may contain supported metadata.
      */
     public void store(String key,  byte[] data, Headers headers){
         backend.store(key, data, headers);
@@ -67,8 +67,8 @@ public class StorageEngine {
 
     /***
      * Want to retreive data stored through this class? Use this method.
-     * @param key
-     * @return
+     * @param key The key that the desired data is mapped to.
+     * @return A StorageEntry instance containing the data and metadata.
      */
     public StorageEntry retrieve(String key) {
         return backend.retrieve(key);
