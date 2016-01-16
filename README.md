@@ -1,8 +1,10 @@
 # FileStore
+
 A simple HTTP API for storing files.
 
 [Download from releases.](https://github.com/Tebro/FileStore/releases)
 
+[![Build Status](https://travis-ci.org/Tebro/FileStore.svg?branch=master)](https://travis-ci.org/Tebro/FileStore)
 
 ## Usage
 
