@@ -39,7 +39,7 @@ public class StorageEngine {
     private void fileBackend(Environment env) throws Exception {
         String path = env.getValue("STORAGE_FILE_PATH");
         if(path == null)
-            path = "/tmp/fileStorage";
+            path = FileBackend.DEFAULT_PATH;
         this.backend = new FileBackend(path);
         System.out.println("Storing data in: " + path);
     }

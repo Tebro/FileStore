@@ -17,6 +17,9 @@ import java.util.Date;
  * Sometimes you want more persistanse than just memory, this is for that time.
  */
 public class FileBackend implements StorageBackend {
+    public static final String DEFAULT_PATH = "/tmp/fileStorage";
+    public static final String TTL_PREFIX = "TTL";
+    public static final String CONTENT_TYPE_PREFIX = "ContentType";
 
     String storagePath;
 
@@ -48,11 +51,11 @@ public class FileBackend implements StorageBackend {
     public void store(String key, byte[] value, Headers headers) {
         String path = this.convertPath(key);
         Path file = Paths.get(this.storagePath + "/" + path);
-        Path ctFile = Paths.get(this.storagePath + "/" + "ContentType" + path);
+        Path ctFile = Paths.get(this.storagePath + "/" + CONTENT_TYPE_PREFIX + path);
 
         // Figure out the TTL
         String ttlHeader = headers.getFirst(TTL_HEADER_NAME);
-        Path ttlFile = Paths.get(this.storagePath + "/" + "TTL" + path);
+        Path ttlFile = Paths.get(this.storagePath + "/" + TTL_PREFIX + path);
         Date now = new Date();
 
         long endOfTtl = 0;
@@ -79,16 +82,16 @@ public class FileBackend implements StorageBackend {
     public StorageEntry retrieve(String key) {
         String path = this.convertPath(key);
         Path file = Paths.get(this.storagePath + "/" + path);
-        Path ctPath = Paths.get(this.storagePath + "/" + "ContentType" + path);
+        Path ctPath = Paths.get(this.storagePath + "/" + CONTENT_TYPE_PREFIX + path);
         try {
             byte[] data = Files.readAllBytes(file);
             byte[] contentTypeAsBytes = Files.readAllBytes(ctPath);
             String contentType = new String(contentTypeAsBytes, Charset.defaultCharset());
             StorageEntry entry = new StorageEntry(key, data);
-            entry.addHeader("Content-Type", contentType);
+            entry.addHeader(StorageBackend.CONTENT_TYPE_HEADER_NAME, contentType);
             return entry;
         } catch (IOException e) {
-            System.out.println("File with key: '"+ key +"' not found.");
+            System.out.println("File with key: '"+ key +"' not found. Was there a TTL set?");
         }
         return null;
     }
@@ -123,7 +126,7 @@ public class FileBackend implements StorageBackend {
                 File [] ttlFiles = storageDir.listFiles(new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {
-                        return name.startsWith("TTL");
+                        return name.startsWith(FileBackend.TTL_PREFIX);
                     }
                 });
 
@@ -147,8 +150,8 @@ public class FileBackend implements StorageBackend {
 
                             String[] prefixes = new String[]{
                                     "", //No prefix
-                                    "TTL",
-                                    "ContentType"
+                                    FileBackend.TTL_PREFIX,
+                                    FileBackend.CONTENT_TYPE_PREFIX
                             };
 
                             for (String prefix : prefixes){
