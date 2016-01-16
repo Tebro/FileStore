@@ -4,7 +4,7 @@ package com.old_box.fileStore;
 import java.util.Map;
 
 public class Environment {
-    Map<String, String> env;
+    protected Map<String, String> env;
 
     public Environment(){
         this.env = System.getenv();
