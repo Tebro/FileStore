@@ -5,6 +5,7 @@ import com.old_box.StorageEngine.Backends.FileBackend;
 import com.old_box.StorageEngine.Backends.MemoryBackend;
 import com.old_box.StorageEngine.Backends.StorageEntry;
 import com.old_box.fileStore.Environment;
+import com.sun.net.httpserver.Headers;
 
 
 /***
@@ -58,10 +59,10 @@ public class StorageEngine {
      * Want to store data through this class? Use this method.
      * @param key
      * @param data
-     * @param contentType
+     * @param headers
      */
-    public void store(String key,  byte[] data, String contentType){
-        backend.store(key, data, contentType);
+    public void store(String key,  byte[] data, Headers headers){
+        backend.store(key, data, headers);
     }
 
     /***

@@ -72,7 +72,7 @@ public class Main {
 
                 // Get the HTTP_CONTENT_TYPE header to store as metadata for the content.
                 Headers headers = t.getRequestHeaders();
-                this.engine.store(key, bytes, headers.getFirst("Content-Type"));
+                this.engine.store(key, bytes, headers);
 
                 // Set the HTTP_CONTENT_TYPE header for the response, basic text in this case
                 Headers resHeaders = t.getResponseHeaders();
@@ -103,9 +103,9 @@ public class Main {
                     return;
                 }
                 // Set the HTTP_CONTENT_TYPE header to the same header that was given when the data was POSTed.
-                if(data.getContentType() != null){
+                if(data.getHeader("Content-Type") != null){
                     Headers headers = t.getResponseHeaders();
-                    headers.add("Content-Type", data.getContentType());
+                    headers.add("Content-Type", data.getHeader("Content-Type"));
                 }
 
                 t.sendResponseHeaders(200, data.getData().length);

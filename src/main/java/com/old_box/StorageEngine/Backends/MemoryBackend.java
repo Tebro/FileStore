@@ -1,8 +1,12 @@
 package com.old_box.StorageEngine.Backends;
 
 import com.old_box.StorageEngine.StorageBackend;
+import com.sun.net.httpserver.Headers;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 /***
@@ -12,10 +16,19 @@ public class MemoryBackend implements StorageBackend {
     HashMap<String, StorageEntry> storage = new HashMap<String, StorageEntry>();
 
 
+    public MemoryBackend(){
+        new Thread(new TTLWatcher(this)).start();
+    }
+
     @Override
-    public void store(String key, byte[] value, String contentType) {
-        StorageEntry e = new StorageEntry(key, value, contentType);
-        storage.put(key, e);
+    public void store(String key, byte[] value, Headers headers) {
+        StorageEntry e = new StorageEntry(key, value);
+        e.addHeader("Content-Type", headers.getFirst(CONTENT_TYPE_HEADER_NAME));
+        String ttlEntry = headers.getFirst(TTL_HEADER_NAME);
+        Long ttlTime = new Date().getTime() + (Long.parseLong(ttlEntry) * 1000);
+
+        e.addHeader("TTL", String.valueOf(ttlTime));
+        this.storage.put(key, e);
     }
 
     @Override
@@ -23,5 +36,46 @@ public class MemoryBackend implements StorageBackend {
         return this.storage.get(key);
     }
 
+    public HashMap<String, StorageEntry> getStorage(){
+        return this.storage;
+    }
+
+    public void rmEntry(String key){
+        this.storage.remove(key);
+    }
+
+
+    private class TTLWatcher implements Runnable{
+
+        MemoryBackend parent;
+
+        TTLWatcher(MemoryBackend parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public void run() {
+            while(true){
+                Date now = new Date();
+
+                for(Map.Entry<String, StorageEntry> pair : parent.getStorage().entrySet()){
+                    StorageEntry entry = pair.getValue();
+                    String ttlString = entry.getHeader("TTL");
+                    long ttlTime = Long.parseLong(ttlString);
+
+                    Date ttlDate = new Date(ttlTime);
+                    if(now.after(ttlDate)){
+                        this.parent.rmEntry((String)pair.getKey());
+                    }
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }
