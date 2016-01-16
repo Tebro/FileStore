@@ -63,13 +63,29 @@ docker run -d -p 1337:1337 \
         tebro/filestore
 ```
 
-### Using in your application
+## Using in your application
 
 To store data with the system send it a HTTP POST request with the data you want to store in the request body.
 
 The URL you use acts as the key. If you POST something to /foo/bar that will be the key.
 
 To retrieve data from the system send it a HTTP GET request to a key that you have previously stored.
+
+### HTTP Headers
+
+Using the headers desrcibed below will affect the system in some way.
+
+#### Content-Type
+
+The standard HTTP Content-Type header is supported. It is stored as meta-data for your content and will be returned when
+said data is accessed.
+
+#### File-Store-TTL
+
+This is a custom header implemented in this project. Add this header with a value in seconds to your POST request when
+storing data, and the system will delete the object after the amount of seconds provided has passed. 
+
+All of the current storage backends support this header.
 
 ## Build
 
