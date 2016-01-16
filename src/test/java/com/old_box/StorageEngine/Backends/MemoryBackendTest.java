@@ -53,11 +53,11 @@ public class MemoryBackendTest {
         byte[] data = "Hello World".getBytes();
         Headers headers = new Headers();
         headers.add(StorageBackend.CONTENT_TYPE_HEADER_NAME, "text/plain");
-        headers.add(StorageBackend.TTL_HEADER_NAME, "5");
+        headers.add(StorageBackend.TTL_HEADER_NAME, "1");
         backend.store(key, data, headers);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -66,5 +66,11 @@ public class MemoryBackendTest {
         assertNull("The object retrieved after the TTL has expired should be null.", shouldBeNull);
     }
 
+    @Test
+    public void testRetrievingNonExistentKey() throws Exception {
+        StorageBackend backend = new MemoryBackend();
+        StorageEntry entry = backend.retrieve("ShouldNotExist");
+        assertNull("The retrieved entry should be null.", entry);
+    }
 
 }
