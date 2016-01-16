@@ -10,4 +10,4 @@ WORKDIR /usr/src/filestore
 
 RUN ./gradlew fatjar
 
-CMD ["java", "-jar", "build/libs/fileStore-all-0.4.jar"]
+CMD ["java", "-jar", "build/libs/fileStore-all-0.4.1.jar"]
