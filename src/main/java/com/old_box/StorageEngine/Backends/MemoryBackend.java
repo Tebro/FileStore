@@ -23,11 +23,13 @@ public class MemoryBackend implements StorageBackend {
     @Override
     public void store(String key, byte[] value, Headers headers) {
         StorageEntry e = new StorageEntry(key, value);
-        e.addHeader("Content-Type", headers.getFirst(CONTENT_TYPE_HEADER_NAME));
+        e.addHeader(CONTENT_TYPE_HEADER_NAME, headers.getFirst(CONTENT_TYPE_HEADER_NAME));
         String ttlEntry = headers.getFirst(TTL_HEADER_NAME);
-        Long ttlTime = new Date().getTime() + (Long.parseLong(ttlEntry) * 1000);
+        if(ttlEntry != null){
+            Long ttlTime = new Date().getTime() + (Long.parseLong(ttlEntry) * 1000);
+            e.addHeader(TTL_HEADER_NAME, String.valueOf(ttlTime));
+        }
 
-        e.addHeader("TTL", String.valueOf(ttlTime));
         this.storage.put(key, e);
     }
 
@@ -60,9 +62,10 @@ public class MemoryBackend implements StorageBackend {
 
                 for(Map.Entry<String, StorageEntry> pair : parent.getStorage().entrySet()){
                     StorageEntry entry = pair.getValue();
-                    String ttlString = entry.getHeader("TTL");
+                    String ttlString = entry.getHeader(StorageBackend.TTL_HEADER_NAME);
+                    if(ttlString == null) continue;
                     long ttlTime = Long.parseLong(ttlString);
-                    if (ttlTime > 0) continue;
+                    if (ttlTime < 1) continue;
                     Date ttlDate = new Date(ttlTime);
                     if(now.after(ttlDate)){
                         this.parent.rmEntry((String)pair.getKey());
@@ -70,7 +73,7 @@ public class MemoryBackend implements StorageBackend {
                 }
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(250);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
