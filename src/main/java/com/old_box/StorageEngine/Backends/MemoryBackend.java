@@ -62,7 +62,7 @@ public class MemoryBackend implements StorageBackend {
                     StorageEntry entry = pair.getValue();
                     String ttlString = entry.getHeader("TTL");
                     long ttlTime = Long.parseLong(ttlString);
-
+                    if (ttlTime > 0) continue;
                     Date ttlDate = new Date(ttlTime);
                     if(now.after(ttlDate)){
                         this.parent.rmEntry((String)pair.getKey());
