@@ -4,6 +4,8 @@ ENV STORAGE_BACKEND     memory
 ENV STORAGE_PORT        10000
 ENV STORAGE_FILE_PATH   /tmp/fileStorage
 
+EXPOSE 10000
+
 COPY . /usr/src/filestore
 
 WORKDIR /usr/src/filestore
