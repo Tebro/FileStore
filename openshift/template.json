@@ -140,6 +140,11 @@
             }
           },
           "spec": {
+            "volumes": [
+              {
+                "name": "filestore"
+              }
+            ],
             "containers": [
               {
                 "name": "filestore",
@@ -156,7 +161,13 @@
                   },
                   {
                     "name": "STORAGE_FILE_PATH",
-                    "value": "${STORAGE_FILE_PATH}"
+                    "value": "/filestore"
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "mountPath": "/filestore",
+                    "name": "filestore"
                   }
                 ]
               }
@@ -185,12 +196,6 @@
         "name": "STORAGE_BACKEND",
         "value": "memory",
         "description": "Which supported storage backend do you want to use?",
-        "required": true
-    },
-    {
-        "name": "STORAGE_FILE_PATH",
-        "description": "The path in the filesystem where the data should be stored if STORAGE_BACKEND 'file' is used",
-        "value": "/filestore",
         "required": true
     }
   ]
