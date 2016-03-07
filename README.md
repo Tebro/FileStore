@@ -73,6 +73,8 @@ The URL you use acts as the key. If you POST something to /foo/bar that will be 
 
 To retrieve data from the system send it a HTTP GET request to a key that you have previously stored.
 
+**Node.js users can use [this](https://www.npmjs.com/package/tebro-filestore) node module**
+
 ### HTTP Headers
 
 Using the headers desrcibed below will affect the system in some way.
