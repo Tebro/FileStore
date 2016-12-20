@@ -67,8 +67,8 @@
         "source": {
           "type": "Source",
           "git": {
-            "uri": "",
-            "ref": ""
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
           },
           "contextDir": ""
         },
@@ -177,7 +177,7 @@
                 "env": [
                   {
                     "name": "STORAGE_BACKEND",
-                    "value": ""
+                    "value": "${STORAGE_BACKEND}"
                   },
                   {
                     "name": "STORAGE_FILE_PATH",
