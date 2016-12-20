@@ -9,14 +9,14 @@
     }
   },
   "labels": {
-    "template": "filestore"
+    "template": "filestore-pvc"
   },
   "objects": [
     {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "filestore",
+        "name": "filestore-pvc",
         "annotations": {
           "description": "Exposes and load balances the application pods"
         }
@@ -30,7 +30,7 @@
           }
         ],
         "selector": {
-          "name": "filestore"
+          "name": "filestore-pvc"
         }
       }
     },
@@ -38,7 +38,7 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "filestore",
+        "name": "filestore-pvc",
         "annotations": {
           "description": "Keeps track of changes in the application image"
         }
@@ -58,7 +58,7 @@
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "filestore",
+        "name": "filestore-pvc",
         "annotations": {
           "description": "Defines how to build the application"
         }
@@ -84,7 +84,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "filestore:latest"
+            "name": "filestore-pvc:latest"
           }
         },
         "triggers": [
@@ -101,7 +101,7 @@
       "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
       "metadata": {
-        "name": "filestore"
+        "name": "filestore-pvc"
       },
       "spec": {
         "accessModes": [
@@ -118,7 +118,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "filestore",
+        "name": "filestore-pvc",
         "annotations": {
           "description": "Defines how to deploy the application server"
         }
@@ -133,11 +133,11 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "filestore"
+                "filestore-pvc"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "filestore:latest"
+                "name": "filestore-pvc:latest"
               }
             }
           },
@@ -147,28 +147,28 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "filestore"
+          "name": "filestore-pvc"
         },
         "template": {
           "metadata": {
-            "name": "filestore",
+            "name": "filestore-pvc",
             "labels": {
-              "name": "filestore"
+              "name": "filestore-pvc"
             }
           },
           "spec": {
             "volumes": [
               {
-                "name": "filestore",
+                "name": "filestore-pvc",
                 "persistentVolumeClaim": {
-                  "claimName": "filestore"
+                  "claimName": "filestore-pvc"
                 }
               }
             ],
             "containers": [
               {
-                "name": "filestore",
-                "image": "filestore",
+                "name": "filestore-pvc",
+                "image": "filestore-pvc",
                 "ports": [
                   {
                     "containerPort": 10000
@@ -187,7 +187,7 @@
                 "volumeMounts": [
                   {
                     "mountPath": "/filestore",
-                    "name": "filestore"
+                    "name": "filestore-pvc"
                   }
                 ]
               }
