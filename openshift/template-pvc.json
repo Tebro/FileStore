@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "filestore",
+    "name": "filestore-pvc",
     "annotations": {
       "description": "An example Java application with no database",
       "tags": "instant-app,java,filestore"
