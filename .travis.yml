@@ -3,6 +3,7 @@ language: java
 addons:
   sonarcloud:
     organisation: "tebro-github"
+    token: $SONAR_TOKEN
     
 script:
   - ./gradlew assemble
