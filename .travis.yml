@@ -1,1 +1,10 @@
 language: java
+
+addons:
+  sonarcloud:
+    organisation: "tebro-github"
+    
+script:
+  - ./gradlew assemble
+  - ./gradlew check
+  - sonar-scanner
